@@ -8,7 +8,7 @@ import { ShopContext } from "../Context/ShopContext";
 
 const ProductDisplay = (props) => {
   const { product } = props;
-  const {addToCart}=useContext(ShopContext);
+  const { addToCart } = useContext(ShopContext);
 
   return (
     <section>
@@ -21,9 +21,9 @@ const ProductDisplay = (props) => {
             <img src={product_rt_3} alt="prdctImg" className="max-h-[99px]" />
             <img src={product_rt_4} alt="prdctImg" className="max-h-[99px]" />
           </div>
-        <div>
-          <img src={product.image} alt="" />
-        </div>
+          <div>
+            <img src={product.image} alt="" />
+          </div>
         </div>
         {/* right side */}
         <div className="flex-col xl:flex-[1.7]">
@@ -56,14 +56,25 @@ const ProductDisplay = (props) => {
               </div>
             </div>
             <div className="flex flex-col gap-y-3 mb-4 max-w-[555px]">
-              <button onClick={()=>{addToCart(product.id)}} className="btn_dark_outline !rounded-none uppercase regular-14 tracking-widest">Add to cart</button>
-              <button className="btn_dark_rounded !rounded-none uppercase regular-14 tracking-widest">Buy it now</button>
+              <button
+                onClick={() => {
+                  addToCart(product.id);
+                }}
+                className="btn_dark_outline !rounded-none uppercase regular-14 tracking-widest"
+              >
+                Add to cart
+              </button>
+              <button className="btn_dark_rounded !rounded-none uppercase regular-14 tracking-widest">
+                Buy it now
+              </button>
             </div>
             <p>
-              <span className="medium-16 text-tertiary">Category :</span> Women | Jacket | Winter
+              <span className="medium-16 text-tertiary">Category :</span> Women
+              | Jacket | Winter
             </p>
             <p>
-              <span className="medium-16 text-tertiary">Tags :</span> Modern | Latest
+              <span className="medium-16 text-tertiary">Tags :</span> Modern |
+              Latest
             </p>
           </div>
         </div>
