@@ -2,14 +2,59 @@ import { useState } from "react";
 
 const Login = () => {
   const [state, setState] = useState("Login");
+  const [formData, setFormData] = useState({
+    username: "",
+    password: "",
+    email: "",
+  });
 
-  const login = async()=>{
-    console.log("Login function executed")
-  }
+  const changeHandler = (e) => {
+    setFormData({ ...formData, [e.target.name]: e.target.value });
+  };
 
-  const signup = async()=>{
-    console.log("signup function executed")
-  }
+  const login = async () => {
+    console.log("Login function executed", formData);
+    let responseData;
+    await fetch("http://localhost:4000/login", {
+      method: "POST",
+      headers: {
+        Accept: "application/formData",
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify(formData),
+    })
+      .then((response) => response.json())
+      .then((data) => (responseData = data));
+
+    if (responseData.success) {
+      localStorage.setItem("auth-token", responseData.token);
+      window.location.replace("/");
+    } else {
+      alert(responseData.errors);
+    }
+  };
+
+  const signup = async () => {
+    console.log("signup function executed", formData);
+    let responseData;
+    await fetch("http://localhost:4000/signup", {
+      method: "POST",
+      headers: {
+        Accept: "application/formData",
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify(formData),
+    })
+      .then((response) => response.json())
+      .then((data) => (responseData = data));
+
+    if (responseData.success) {
+      localStorage.setItem("auth-token", responseData.token);
+      window.location.replace("/");
+    } else {
+      alert(responseData.errors);
+    }
+  };
 
   return (
     <section className="max_padd_container flexCenter flex-col pt-32">
@@ -19,6 +64,8 @@ const Login = () => {
           {state === "Sign Up" ? (
             <input
               name="username"
+              value={formData.username}
+              onChange={changeHandler}
               type="text"
               placeholder="Your Name"
               className="h-14 w-full pl-5 bg-slate-900/5 outline-none rounded-xl"
@@ -27,17 +74,28 @@ const Login = () => {
             ""
           )}
           <input
+            name="email"
+            value={formData.email}
+            onChange={changeHandler}
             type="email"
-            placeholder="Email"
+            placeholder="Email Address"
             className="h-14 w-full pl-5 bg-slate-900/5 outline-none rounded-xl"
           />
           <input
+            name="password"
+            value={formData.password}
+            onChange={changeHandler}
             type="password"
             placeholder="Password"
             className="h-14 w-full pl-5 bg-slate-900/5 outline-none rounded-xl"
           />
         </div>
-        <button onClick={()=>{state==="Login"?login():signup()}} className="btn_dark_rounded my-5 w-full !rounded-md">
+        <button
+          onClick={() => {
+            state === "Login" ? login() : signup();
+          }}
+          className="btn_dark_rounded my-5 w-full !rounded-md"
+        >
           Continue
         </button>
 
